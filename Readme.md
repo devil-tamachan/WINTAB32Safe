@@ -8,7 +8,7 @@ PTB-STRP1＋Flashが時々強制終了するバグを抑える。
  - PTB-STRP1のWINTAB32.dllがhCtxのNULLチェックをしていないバグ。hCtxがNULLのまま呼び出すとアプリごと強制終了
 
 ## 効用
-WTPacketsPeekのhCtxをNULLのまま呼び出された場合、このラッパーdllから即エラーを返す(処理したパケット0)
+WTPacketsPeekのhCtxがNULLの場合、このラッパーdllから即エラーを返す(処理したパケット0)
 
 ## 使い方
 
