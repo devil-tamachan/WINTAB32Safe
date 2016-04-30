@@ -1,26 +1,26 @@
 ## WINTAB32Safe
-WINTAB32.dll‚Ìƒ‰ƒbƒp[dll (32ƒrƒbƒg”Å‚Ì‚Ý)
+WINTAB32.dllã®ãƒ©ãƒƒãƒ‘ãƒ¼dll (32ãƒ“ãƒƒãƒˆç‰ˆã®ã¿)
 
-## –Ú“I
-PTB-STRP1{Flash‚ªŽžX‹­§I—¹‚·‚éƒoƒO‚ð—}‚¦‚éB
-Œ´ˆö‚Í
-EFlash‚ªWTPacketsPeek (WINTAB32.dll) ‚ÌhCtx‚ðNULL‚Ì‚Ü‚ÜŒÄ‚Ño‚·ƒoƒO
-EPTB-STRP1‚ÌWINTAB32.dll‚ªhCtx‚ÌNULLƒ`ƒFƒbƒN‚ð‚µ‚Ä‚¢‚È‚¢ƒoƒOBhCtx‚ªNULL‚Ì‚Ü‚ÜŒÄ‚Ño‚·‚ÆƒAƒvƒŠ‚²‚Æ‹­§I—¹
+## ç›®çš„
+PTB-STRP1ï¼‹FlashãŒæ™‚ã€…å¼·åˆ¶çµ‚äº†ã™ã‚‹ãƒã‚°ã‚’æŠ‘ãˆã‚‹ã€‚
+åŽŸå› ã¯
+ - FlashãŒWTPacketsPeek (WINTAB32.dll) ã®hCtxã‚’NULLã®ã¾ã¾å‘¼ã³å‡ºã™ãƒã‚°
+ - PTB-STRP1ã®WINTAB32.dllãŒhCtxã®NULLãƒã‚§ãƒƒã‚¯ã‚’ã—ã¦ã„ãªã„ãƒã‚°ã€‚hCtxãŒNULLã®ã¾ã¾å‘¼ã³å‡ºã™ã¨ã‚¢ãƒ—ãƒªã”ã¨å¼·åˆ¶çµ‚äº†
 
-## Œø—p
-WTPacketsPeek‚ÌhCtx‚ðNULL‚Ì‚Ü‚ÜŒÄ‚Ño‚³‚ê‚½ê‡A‚±‚Ìƒ‰ƒbƒp[dll‚©‚ç‘¦ƒGƒ‰[‚ð•Ô‚·(ˆ—‚µ‚½ƒpƒPƒbƒg0)
+## åŠ¹ç”¨
+WTPacketsPeekã®hCtxã‚’NULLã®ã¾ã¾å‘¼ã³å‡ºã•ã‚ŒãŸå ´åˆã€ã“ã®ãƒ©ãƒƒãƒ‘ãƒ¼dllã‹ã‚‰å³ã‚¨ãƒ©ãƒ¼ã‚’è¿”ã™(å‡¦ç†ã—ãŸãƒ‘ã‚±ãƒƒãƒˆ0)
 
-## Žg‚¢•û
+## ä½¿ã„æ–¹
 
-#### 32ƒrƒbƒg”ÅWindows‚ðŽg‚Á‚Ä‚¢‚él
-EC:\Windows\System32‚ÉˆÚ“®
+#### 32ãƒ“ãƒƒãƒˆç‰ˆWindowsã‚’ä½¿ã£ã¦ã„ã‚‹äºº
+ - C:\Windows\System32ã«ç§»å‹•
 
-#### 64ƒrƒbƒg”ÅWindows‚ðŽg‚Á‚Ä‚¢‚él
-EC:\Windows\SysWow64‚ÉˆÚ“®
+#### 64ãƒ“ãƒƒãƒˆç‰ˆWindowsã‚’ä½¿ã£ã¦ã„ã‚‹äºº
+ - C:\Windows\SysWow64ã«ç§»å‹•
 
-#### ‚±‚±‚©‚ç‹¤’Ê
-EWINTAB32.dll‚ðWINTAB32_.dll‚É–¼‘O•ÏX
-Eƒ_ƒEƒ“ƒ[ƒh‚µ‚½WINTAB32.dll‚ðƒRƒsƒy
+#### ã“ã“ã‹ã‚‰å…±é€š
+ - WINTAB32.dllã‚’WINTAB32_.dllã«åå‰å¤‰æ›´
+ - ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰ã—ãŸWINTAB32.dllã‚’ã‚³ãƒ”ãƒš
 
-#### ƒAƒ“ƒCƒ“ƒXƒg[ƒ‹•û–@
-Eƒ^ƒuƒŒƒbƒg‚Ìƒhƒ‰ƒCƒo‚ðÄƒCƒ“ƒXƒg[ƒ‹
+#### ã‚¢ãƒ³ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«æ–¹æ³•
+ - ã‚¿ãƒ–ãƒ¬ãƒƒãƒˆã®ãƒ‰ãƒ©ã‚¤ãƒã‚’å†ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
