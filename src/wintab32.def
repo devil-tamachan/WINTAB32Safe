@@ -1,7 +1,7 @@
 LIBRARY wintab32
 EXPORTS
     WTInfoA=d_WTInfoA @ 20
-    WTOpenA=d_WTOpenA @ 21
+    WTOpenA=WTOpenA @ 21
     WTClose=d_WTClose @ 22
     WTPacketsGet=d_WTPacketsGet @ 23
     WTPacket=d_WTPacket @ 24

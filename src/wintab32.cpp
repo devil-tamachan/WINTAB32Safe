@@ -3,8 +3,12 @@
 
 #include <windows.h>
 
+DECLARE_HANDLE(HCTX);		/* context handle */
+
 FARPROC p_WTInfoA;
-FARPROC p_WTOpenA;
+//FARPROC p_WTOpenA;
+typedef HCTX (*D_WTOpenA)(HWND, LPVOID, BOOL);
+D_WTOpenA p_WTOpenA;
 FARPROC p_WTClose;
 FARPROC p_WTPacketsGet;
 FARPROC p_WTPacket;
@@ -48,7 +52,6 @@ FARPROC p_WTSetW;
 FARPROC p_WTMgrConfigReplaceExW;
 FARPROC p_WTMgrPacketHookExW;
 
-DECLARE_HANDLE(HCTX);		/* context handle */
 typedef int (*D_WTPacketsPeek)(HCTX, int, LPVOID);
 D_WTPacketsPeek p_WTPacketsPeek;
 
@@ -66,7 +69,8 @@ BOOL APIENTRY DllMain( HANDLE hModule,
      if ( h_original == NULL )
          return FALSE;
        p_WTInfoA = GetProcAddress( h_original, "WTInfoA" );
-       p_WTOpenA = GetProcAddress( h_original, "WTOpenA" );
+       //p_WTOpenA = GetProcAddress( h_original, "WTOpenA" );
+       p_WTOpenA = (D_WTOpenA)GetProcAddress( h_original, "WTOpenA" );
        p_WTClose = GetProcAddress( h_original, "WTClose" );
        p_WTPacketsGet = GetProcAddress( h_original, "WTPacketsGet" );
        p_WTPacket = GetProcAddress( h_original, "WTPacket" );
@@ -122,9 +126,69 @@ BOOL APIENTRY DllMain( HANDLE hModule,
  }
  return TRUE;
  }
+ 
+typedef DWORD FIX32;				/* fixed-point arithmetic type */
+typedef DWORD WTPKT;			/* packet mask */
+#define LCNAMELEN		40
+typedef struct tagLOGCONTEXTA {
+	char	lcName[LCNAMELEN];
+	UINT	lcOptions;
+	UINT	lcStatus;
+	UINT	lcLocks;
+	UINT	lcMsgBase;
+	UINT	lcDevice;
+	UINT	lcPktRate;
+	WTPKT	lcPktData;
+	WTPKT	lcPktMode;
+	WTPKT	lcMoveMask;
+	DWORD	lcBtnDnMask;
+	DWORD	lcBtnUpMask;
+	LONG	lcInOrgX;
+	LONG	lcInOrgY;
+	LONG	lcInOrgZ;
+	LONG	lcInExtX;
+	LONG	lcInExtY;
+	LONG	lcInExtZ;
+	LONG	lcOutOrgX;
+	LONG	lcOutOrgY;
+	LONG	lcOutOrgZ;
+	LONG	lcOutExtX;
+	LONG	lcOutExtY;
+	LONG	lcOutExtZ;
+	FIX32	lcSensX;
+	FIX32	lcSensY;
+	FIX32	lcSensZ;
+	BOOL	lcSysMode;
+	int	lcSysOrgX;
+	int	lcSysOrgY;
+	int	lcSysExtX;
+	int	lcSysExtY;
+	FIX32	lcSysSensX;
+	FIX32	lcSysSensY;
+} LOGCONTEXTA, *PLOGCONTEXTA, NEAR *NPLOGCONTEXTA, FAR *LPLOGCONTEXTA;
+
 
 __declspec( naked ) void d_WTInfoA() { _asm{ jmp p_WTInfoA } }
-__declspec( naked ) void d_WTOpenA() { _asm{ jmp p_WTOpenA } }
+//__declspec( naked ) void d_WTOpenA() { _asm{ jmp p_WTOpenA } }
+
+HCTX WINAPI WTOpenA(HWND hWnd, LPVOID lpLogCtx, BOOL fEnable)
+{
+  LPLOGCONTEXTA lpCon = (LPLOGCONTEXTA)lpLogCtx;
+  if(lstrcmp(lpCon->lcName, "Azel WinTab")==0)
+  {
+    lpCon->lcOutExtX=lpCon->lcInExtX;
+    lpCon->lcOutExtY=lpCon->lcInExtY;
+  }
+  HCTX ret = p_WTOpenA(hWnd, lpLogCtx, fEnable);
+/*  char *buf = (char *)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, 1024);
+  unsigned char *pL = (unsigned char *)lpLogCtx;
+  wsprintf(buf, "WTOpenA: hWnd=0x%08X, lpLogCtx=0x%08X, fEnable=%s, lcPktData=0x%08X, lcPktMode=0x%08X, ret=%s\n", hWnd, lpLogCtx, fEnable?"TRUE":"FALSE", *((DWORD*)(pL+64)), *((DWORD*)(pL+68)), ret?"Success":"Fail");
+  OutputDebugStringA(buf);
+  wsprintf(buf, "   lcName=%s\n   lcOptions=%u\n   lcStatus=%u\n   lcLocks=%u\n   lcMsgBase=%u\n   lcDevice=%u\n   lcPktRate=%u\n   lcPktData=0x%08X\n   lcPktMode=0x%08X\n   lcMoveMask=0x%08X\n   lcBtnDnMask=0x%08X\n   lcBtnUpMask=0x%08X\n   lcInOrgX=%d\n   lcInOrgY=%d\n   lcInOrgZ=%d\n   lcInExtX=%d\n   lcInExtY=%d\n   lcInExtZ=%d\n   lcOutOrgX=%d\n   lcOutOrgY=%d\n   lcOutOrgZ=%d\n   lcOutExtX=%d\n   lcOutExtY=%d\n   lcOutExtZ=%d\n   lcSensX=%u\n   lcSensY=%u\n   lcSensZ=%u\n   lcSysMode=%s\n   lcSysOrgX=%d\n   lcSysOrgY=%d\n   lcSysExtX=%d\n   lcSysExtY=%d\n   lcSysSensX=%u\n   lcSysSensY=%u\n", lpCon->lcName, lpCon->lcOptions, lpCon->lcStatus, lpCon->lcLocks, lpCon->lcMsgBase, lpCon->lcDevice, lpCon->lcPktRate, lpCon->lcPktData, lpCon->lcPktMode, lpCon->lcMoveMask, lpCon->lcBtnDnMask, lpCon->lcBtnUpMask, lpCon->lcInOrgX, lpCon->lcInOrgY, lpCon->lcInOrgZ, lpCon->lcInExtX, lpCon->lcInExtY, lpCon->lcInExtZ, lpCon->lcOutOrgX, lpCon->lcOutOrgY, lpCon->lcOutOrgZ, lpCon->lcOutExtX, lpCon->lcOutExtY, lpCon->lcOutExtZ, (lpCon->lcSensX), (lpCon->lcSensY), (lpCon->lcSensZ), (lpCon->lcSysMode)?"TRUE":"FALSE", lpCon->lcSysOrgX, lpCon->lcSysOrgY, lpCon->lcSysExtX, lpCon->lcSysExtY, (lpCon->lcSysSensX), (lpCon->lcSysSensY));
+  OutputDebugStringA(buf);
+  HeapFree(GetProcessHeap(), 0, buf);*/
+  return ret;
+}
 __declspec( naked ) void d_WTClose() { _asm{ jmp p_WTClose } }
 __declspec( naked ) void d_WTPacketsGet() { _asm{ jmp p_WTPacketsGet } }
 __declspec( naked ) void d_WTPacket() { _asm{ jmp p_WTPacket } }
